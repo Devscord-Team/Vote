@@ -2,9 +2,10 @@
 CREATE TABLE VotesToApprove (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     Author TEXT NOT NULL,
-    AuthorID INTEGER,
+    AuthorID INTEGER NOT NULL,
     Content TEXT NOT NULL,
-    ServerID INTEGER,
-    MessageID INTEGER,
-    ApprovedByUser INTEGER
+    ServerID INTEGER NOT NULL,
+    MessageID INTEGER NOT NULL,
+    IsApprovedByAuthor INTEGER NOT NULL,
+    ApprovedByAdminId INTEGER
 )

@@ -1,1 +1,2 @@
-hello: Cześć
+vote_asked:
+  title: "Kliknij %{approve_emoji} żeby zaproponować ankiete"

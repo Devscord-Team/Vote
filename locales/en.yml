@@ -1,1 +1,2 @@
-hello: Hello
+vote_asked:
+  title: "Click %{approve_emoji} to propose a survey"

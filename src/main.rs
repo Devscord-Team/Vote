@@ -1,9 +1,12 @@
 use dotenv::dotenv;
+use rust_i18n::t;
 use serenity::async_trait;
 use serenity::model::gateway::Ready;
 use serenity::model::prelude::Message;
 use serenity::prelude::*;
 use std::env;
+
+rust_i18n::i18n!("locales");
 
 struct Handler;
 
@@ -19,13 +22,12 @@ impl EventHandler for Handler {
         }
         new_message
             .channel_id
-            .say(
-                &ctx.http,
-                format!(
-                    "Message: {}, Author: {}",
-                    new_message.content, new_message.author.name
-                ),
-            )
+            .send_message(&ctx.http, |m| {
+                m.embed(|e| {
+                    e.title(t!("hello", locale = "pl"))
+                        .description("description")
+                })
+            })
             .await
             .expect("Error sending message");
     }

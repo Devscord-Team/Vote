@@ -58,7 +58,7 @@ impl EventHandler for Handler {
         let message_id = i64::try_from(sent_message_id.as_u64().to_owned()).unwrap();
 
         let result = sqlx::query!(
-            "INSERT INTO VotesToApprove (Author, AuthorID, Content, ServerID, MessageID, IsApprovedByAuthor, ApprovedByAdminId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Votes (Author, AuthorID, Content, ServerID, MessageID, IsApprovedByAuthor, ApprovedByAdminId) VALUES (?, ?, ?, ?, ?, ?, ?)",
             author_name,
             author_id,
             new_message.content,

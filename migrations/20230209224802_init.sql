@@ -1,5 +1,5 @@
 -- Add migration script here
-CREATE TABLE VotesToApprove (
+CREATE TABLE Votes (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     Author TEXT NOT NULL,
     AuthorID INTEGER NOT NULL,

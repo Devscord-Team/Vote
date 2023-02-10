@@ -3,7 +3,7 @@ use serenity::prelude::*;
 
 use crate::Handler;
 
-pub async fn handle(handler: &Handler, ctx: Context, add_reaction: Reaction) {
+pub async fn handle(handler: &Handler, _: Context, add_reaction: Reaction) {
     if add_reaction.member.unwrap().user.unwrap().bot {
         println!("Reaction added by bot");
         return;

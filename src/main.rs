@@ -3,7 +3,7 @@ use rust_i18n::t;
 use serenity::async_trait;
 use serenity::builder::CreateEmbedAuthor;
 use serenity::model::gateway::Ready;
-use serenity::model::prelude::{Message, ReactionType};
+use serenity::model::prelude::{Message, Reaction, ReactionType};
 use serenity::model::user::User;
 use serenity::prelude::*;
 use std::env;
@@ -58,7 +58,9 @@ impl EventHandler for Handler {
         let message_id = i64::try_from(sent_message_id.as_u64().to_owned()).unwrap();
 
         let result = sqlx::query!(
-            "INSERT INTO Votes (Author, AuthorID, Content, ServerID, MessageID, IsApprovedByAuthor, ApprovedByAdminId) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Votes 
+            (Author, AuthorID, Content, ServerID, MessageID, IsApprovedByAuthor, ApprovedByAdminId) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)",
             author_name,
             author_id,
             new_message.content,
@@ -73,6 +75,34 @@ impl EventHandler for Handler {
         match result {
             Ok(x) => println!("{}", x.last_insert_rowid()),
             Err(x) => println!("{}", x),
+        }
+    }
+
+    async fn reaction_add(&self, ctx: Context, add_reaction: Reaction) {
+        if add_reaction.member.unwrap().user.unwrap().bot {
+            println!("Reaction added by bot");
+            return;
+        }
+        let create_vote_channel_id: u64 = 636638300731604996;
+        if add_reaction.channel_id.as_u64() != &create_vote_channel_id {
+            return;
+        }
+        println!("Reaction added by user");
+
+        let message_id = i64::try_from(add_reaction.message_id.as_u64().to_owned()).unwrap();
+        let entry = sqlx::query!(
+            "SELECT Id 
+            FROM Votes 
+            WHERE IsApprovedByAuthor=0 AND ApprovedByAdminId=0 AND MessageID=?",
+            message_id
+        )
+        .fetch_optional(&self.database)
+        .await
+        .unwrap();
+
+        match entry {
+            Some(x) => println!("Found message with ID {}", x.Id),
+            None => println!("Not found"),
         }
     }
 }

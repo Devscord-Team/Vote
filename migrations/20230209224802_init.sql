@@ -7,5 +7,5 @@ CREATE TABLE Votes (
     ServerID INTEGER NOT NULL,
     MessageID INTEGER NOT NULL,
     IsApprovedByAuthor INTEGER NOT NULL,
-    ApprovedByAdminId INTEGER
+    ApprovedByAdminId INTEGER NOT NULL
 )

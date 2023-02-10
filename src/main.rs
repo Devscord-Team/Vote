@@ -1,5 +1,6 @@
 mod event_handlers;
 
+use crate::event_handlers::{message, reaction_add, ready};
 use dotenv::dotenv;
 use serenity::async_trait;
 use serenity::model::gateway::Ready;
@@ -16,15 +17,15 @@ pub struct Handler {
 #[async_trait]
 impl EventHandler for Handler {
     async fn ready(&self, ctx: Context, ready: Ready) {
-        event_handlers::ready::handle(&self, ctx, ready).await
+        ready::handle(&self, ctx, ready).await
     }
 
     async fn message(&self, ctx: Context, new_message: Message) {
-        event_handlers::message::handle(&self, ctx, new_message).await
+        message::handle(&self, ctx, new_message).await
     }
 
     async fn reaction_add(&self, ctx: Context, add_reaction: Reaction) {
-        event_handlers::reaction_add::handle(&self, ctx, add_reaction).await
+        reaction_add::handle(&self, ctx, add_reaction).await
     }
 }
 

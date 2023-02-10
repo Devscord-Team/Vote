@@ -1,2 +1,4 @@
 vote_asked:
   title: "Click %{approve_emoji} to propose a survey"
+  confirmed: "Survey has been sent to verification"
+  confirmed_error: "Error ocurred"

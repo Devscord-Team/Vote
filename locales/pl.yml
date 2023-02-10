@@ -1,2 +1,4 @@
 vote_asked:
   title: "Kliknij %{approve_emoji} żeby zaproponować ankiete"
+  confirmed: "Ankieta została wysłana do weryfikacji"
+  confirmed_error: "Wystąpił problem"

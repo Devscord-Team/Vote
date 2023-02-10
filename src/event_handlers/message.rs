@@ -55,7 +55,7 @@ pub async fn handle(handler: &Handler, ctx: Context, new_message: Message) {
         0,
         0
     )
-    .execute(&handler.database) // < Where the command will be executed
+    .execute(&handler.database)
     .await;
 
     match result {

@@ -6,6 +6,7 @@ CREATE TABLE Votes (
     Content TEXT NOT NULL,
     ServerID INTEGER NOT NULL,
     MessageID INTEGER NOT NULL,
+    VerificationMessageID INTEGER NOT NULL,
     IsApprovedByAuthor INTEGER NOT NULL,
     ApprovedByAdminId INTEGER NOT NULL
 )

@@ -1,5 +1,6 @@
 pub mod embed_builders;
 pub mod event_handlers;
+pub mod voting;
 
 use crate::event_handlers::{message, reaction_add, ready};
 use dotenv::dotenv;

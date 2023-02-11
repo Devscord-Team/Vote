@@ -1,7 +1,8 @@
 vote_asked:
   title: "Kliknij %{approve_emoji} żeby zaproponować ankiete"
   confirmed: "Ankieta została wysłana do weryfikacji"
-  confirmed_error: "Wystąpił problem"
 vote_waiting_for_verify:
   title: "Kliknij %{approve_emoji} żeby zatwierdzić ankiete"
   approved: "Ankieta została zatwierdzona"
+commons:
+  survey_not_found: "Nie udało się znaleźć ankiety"

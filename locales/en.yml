@@ -1,7 +1,8 @@
 vote_asked:
   title: "Click %{approve_emoji} to propose a survey"
   confirmed: "Survey has been sent to verification"
-  confirmed_error: "Error ocurred"
 vote_waiting_for_verify:
   title: "Click %{approve_emoji} to approve a survey"
   approved: "Survey approved"
+commons:
+  survey_not_found: "Survey not found"

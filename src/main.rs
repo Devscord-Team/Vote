@@ -1,4 +1,5 @@
-mod event_handlers;
+pub mod embed_builders;
+pub mod event_handlers;
 
 use crate::event_handlers::{message, reaction_add, ready};
 use dotenv::dotenv;

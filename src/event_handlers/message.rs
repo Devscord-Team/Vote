@@ -4,12 +4,13 @@ use serenity::model::prelude::{Message, ReactionType};
 use serenity::model::user::User;
 use serenity::prelude::*;
 
-use crate::Handler;
+use crate::{embed_builders, Handler};
 
 pub async fn handle(handler: &Handler, ctx: Context, new_message: Message) {
     if new_message.author.bot {
         return;
     }
+    //TODO from config
     let create_vote_channel_id: u64 = 636638300731604996;
     if new_message.channel_id.as_u64() != &create_vote_channel_id {
         return;
@@ -18,7 +19,7 @@ pub async fn handle(handler: &Handler, ctx: Context, new_message: Message) {
         .channel_id
         .send_message(&ctx.http, |m| {
             m.embed(|e| {
-                e.author(|a| map_author_to_embed(a, new_message.author.clone()))
+                e.author(|a| embed_builders::author::build(a, new_message.author.clone()))
                     .title(t!("vote_asked.title", locale = "pl", approve_emoji = "✅"))
                     .description(&new_message.content)
             })
@@ -62,13 +63,4 @@ pub async fn handle(handler: &Handler, ctx: Context, new_message: Message) {
         Ok(x) => println!("{}", x.last_insert_rowid()),
         Err(x) => println!("{}", x),
     }
-}
-
-fn map_author_to_embed(builder: &mut CreateEmbedAuthor, author: User) -> &mut CreateEmbedAuthor {
-    builder
-        .name(format!("{}#{}", author.name, author.discriminator))
-        .icon_url(match author.avatar_url() {
-            Some(x) => x.to_owned(),
-            None => author.default_avatar_url(),
-        })
 }

@@ -1,7 +1,5 @@
 use rust_i18n::t;
-use serenity::builder::CreateEmbedAuthor;
 use serenity::model::prelude::{Message, ReactionType};
-use serenity::model::user::User;
 use serenity::prelude::*;
 
 use crate::{embed_builders, Handler};

@@ -1,8 +1,6 @@
-use std::borrow::BorrowMut;
-
 use rust_i18n::t;
 use serenity::futures::StreamExt;
-use serenity::model::prelude::{ChannelId, GuildChannel, GuildId, Reaction};
+use serenity::model::prelude::{ChannelId, GuildChannel, GuildId, Reaction, ReactionType};
 use serenity::model::user::User;
 use serenity::prelude::*;
 
@@ -61,7 +59,7 @@ async fn on_author_confirm(
         .iter()
         .find(|(channel_id, _)| channel_id.as_u64() == &verification_channel_id);
 
-    if let Some((_, verification_channel)) = verification_channel {
+    if let Some((verification_channel_id, verification_channel)) = verification_channel {
         sqlx::query!(
             "UPDATE Votes 
             SET IsApprovedByAuthor=1 
@@ -84,6 +82,7 @@ async fn on_author_confirm(
             entry_id,
             guild_id,
             server_id,
+            verification_channel_id,
             verification_channel,
         )
         .await;
@@ -101,6 +100,7 @@ async fn send_to_verification(
     entry_id: i64,
     guild_id: GuildId,
     server_id: i64,
+    verification_channel_id: &ChannelId,
     verification_channel: &GuildChannel,
 ) {
     let entry = sqlx::query!(
@@ -121,13 +121,26 @@ async fn send_to_verification(
         .send_message(&ctx.http, |m| {
             m.embed(|e| {
                 e.author(|a| embed_builders::author::build(a, user))
-                    .title(t!("vote_asked.title", locale = "pl", approve_emoji = "✅"))
+                    .title(t!(
+                        "vote_waiting_for_verify.title",
+                        locale = "pl",
+                        approve_emoji = "✅"
+                    ))
                     .description(&entry.Content)
             })
         })
         .await
         .expect("Error sending message")
         .id;
+
+    verification_channel_id
+        .create_reaction(
+            &ctx.http,
+            sent_message_id,
+            ReactionType::Unicode("✅".to_string()),
+        )
+        .await
+        .expect("Error adding reaction to message");
 }
 
 async fn get_user_by_id(ctx: &Context, guild_id: GuildId, user_id: u64) -> Option<User> {
